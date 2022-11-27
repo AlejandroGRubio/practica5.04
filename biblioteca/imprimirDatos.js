@@ -3,7 +3,7 @@ import { devolverDatoPersonaje, devolverDatoNave, devolverDatoVehi, generarId } 
 
 
 
-
+//Imprime por pantalla una lista con las películas.
 export function imprimirListaPelis(lista, idUbi) {
     
     var doc = window.document;
@@ -25,7 +25,7 @@ export function imprimirListaPelis(lista, idUbi) {
     doc.getElementById(idUbi).appendChild(ul);
 
 }
-
+//Imprime por pantalla los datos de las pelis.
 export function imprimirDatosPelis(nombrePeli, lista, idUbi) {
      
     var doc = window.document;
@@ -116,12 +116,10 @@ export function imprimirDatosPelis(nombrePeli, lista, idUbi) {
 
 
 
-
+//Imprime por pantalla la información de un personaje.
 export function imprimirInfoPersonaje(datos){
 
     var doc = window.document;
-
-    console.log(datos);
 
     var cuerpo = doc.createElement(`div`);
 
@@ -192,7 +190,7 @@ export function imprimirInfoPersonaje(datos){
 
     devolverDatoNave(datos.starships, idNaves);
 
-    devolverDatoVehi(datos.vehicles);
+    devolverDatoVehi(datos.vehicles, idVehi);
 
     doc.getElementById(idUbiNaves).addEventListener(`click`, (e) => {
 
@@ -212,18 +210,35 @@ export function imprimirInfoPersonaje(datos){
 
     })
 
+    doc.getElementById(idUbiVehi).addEventListener(`click`, (e) => {
+
+        if (e.target.className == `vehiculosNoClicked`) {
+            e.target.className = `vehiculosClicked`;
+        }
+        else if (e.target.className == `vehiculosClicked`) {
+            e.target.className = `vehiculosNoClicked`;
+            e.target.firstElementChild.className = `noDatosNave`;
+        }
+
+        if (e.target.className == `vehiculosClicked` && e.target.firstElementChild.className == `noDatosVehi`) {
+            e.target.firstElementChild.className = `datosVehi`;
+        }
+
+
+
+    })
+
 
 
 
 }
 
 
-
+//Imprime por pantalla la información de una nave. 
 export function imprimirDatosNave(datos, idUbi) {
     
     var doc = window.document;
 
-    console.log(datos);
 
     var cuerpo = doc.createElement(`div`);
 
@@ -255,4 +270,35 @@ export function imprimirDatosNave(datos, idUbi) {
 
 
 
+}
+//Imprime por pantalla la información de un vehículo.
+export function imprimirDatosVehi(datos, idUbi) {
+    var doc = window.document;
+
+
+    var cuerpo = doc.createElement(`div`);
+
+    var nombre = doc.createElement(`p`);
+    nombre.innerHTML = `Nombre: ${datos.name}`;
+
+    var modelo = doc.createElement(`p`);
+    modelo.innerHTML = `Modelo: ${datos.model}`;
+
+    var coste = doc.createElement(`p`);
+    coste.innerHTML = `Coste: ${datos.cost_in_credits} creditos`;
+
+    var largo = doc.createElement(`p`);
+    largo.innerHTML = `Largo: ${datos.length}`;
+
+    var capacidad = doc.createElement(`p`);
+    capacidad.innerHTML = `Capacidad de carga: ${datos.cargo_capacity}`;
+
+    cuerpo.appendChild(nombre);
+    cuerpo.appendChild(modelo);
+    cuerpo.appendChild(coste);
+    cuerpo.appendChild(largo);
+    cuerpo.appendChild(capacidad);
+
+
+    doc.getElementById(idUbi).appendChild(cuerpo);
 }

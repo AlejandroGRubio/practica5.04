@@ -2,7 +2,7 @@
 import { devolverDatos, devolverDatosOtro } from "./datosAPI.js";
 import * as imprimir from "./imprimirDatos.js";
 
-
+//Genera una id aleatoria.
 export function generarId(numLetras){
 
 
@@ -22,16 +22,15 @@ export function generarId(numLetras){
 
 
 
-
+//Devuelve las películas.
 export const devolverListaPelis = async (url, idUbi) => {
     let datosLista = await devolverDatos(url);
-    console.log(datosLista);
 
     imprimir.imprimirListaPelis(datosLista, idUbi);
 
     
 }
-
+//Devuelve los datos de las pelis.
 export const devolverDatosPelis = async (nomPeli, url, idUbi) => {
 
     let datosPelis = await devolverDatos(url);
@@ -40,7 +39,7 @@ export const devolverDatosPelis = async (nomPeli, url, idUbi) => {
 
 
 }
-
+//Devuelve los datos de los personajes.
 export const devolverDatoPersonaje = async (urlObj) => {
 
     let contar = 0;
@@ -65,7 +64,7 @@ export const devolverDatoPersonaje = async (urlObj) => {
 
 
 }
-
+//Devuelve los datos de las naves.
 export const devolverDatoNave = async (arrUrl, idUbi) => {
 
     var contar = 0;
@@ -75,7 +74,6 @@ export const devolverDatoNave = async (arrUrl, idUbi) => {
 
         var url = arrUrl[contar];
 
-        console.log(url);
         let datosNave = await devolverDatosOtro(url);
 
         imprimir.imprimirDatosNave(datosNave, idUbi);
@@ -89,10 +87,24 @@ export const devolverDatoNave = async (arrUrl, idUbi) => {
 }
 
 
+//Devuelve los datos de los vehículos.
+export const devolverDatoVehi = async (arrUrl, idUbi) => {
 
-export const devolverDatoVehi = async (arrUrl) => {
+    var contar = 0;
+
+    while (contar < arrUrl.length) {
+        
+
+        var url = arrUrl[contar];
+
+        let datosNave = await devolverDatosOtro(url);
+
+        imprimir.imprimirDatosVehi(datosNave, idUbi);
 
 
+        contar++;
+
+    }
 
 
 }

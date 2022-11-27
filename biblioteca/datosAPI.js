@@ -9,6 +9,24 @@ export function devolverDatos(url) {
      })
      .then((datos) => {
          return datos.results;
+         
+     }));
+ 
+ 
+}
+
+
+
+
+export function devolverDatosOtro(url) {
+    
+    return(fetch(url)
+     .then((respuesta) => {
+         return respuesta.json();
+     })
+     .then((datos) => {
+         return datos;
+         
      }));
  
  

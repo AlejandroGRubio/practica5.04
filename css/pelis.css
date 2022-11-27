@@ -29,5 +29,34 @@ body{
     text-decoration: none;
 }
 
+.noDatosPersonaje{
+    display: none;
+}
+
+.personajeClicked{
+
+    color: lightyellow;
+
+}
+
+.datosPersonaje{
+    color: yellow;
+    
+}
+
+.noDatosNave{
+    display: none;
+}
+
+.datosNave{
+    color: grey;
+}
+
+.navesClicked{
+
+    color: lightgrey;
+
+}
+
 
 

@@ -1,5 +1,5 @@
 "use strict";
-import { devolverDatoPersonaje } from "./devolverDatos.js";
+import { devolverDatoPersonaje, devolverDatoNave, devolverDatoVehi, generarId } from "./devolverDatos.js";
 
 
 
@@ -68,9 +68,9 @@ export function imprimirDatosPelis(nombrePeli, lista, idUbi) {
 
             var personajes = doc.createElement(`p`);
 
-            personajes.innerHTML = `Personajes`;
-
             personajes.setAttribute(`id`, `personajes`);
+
+            personajes.setAttribute(`class`, `personajeNoClick`);
 
             cuerpo.appendChild(titulo);
             cuerpo.appendChild(sinopsis);
@@ -81,9 +81,33 @@ export function imprimirDatosPelis(nombrePeli, lista, idUbi) {
 
             doc.getElementById(idUbi).appendChild(cuerpo);
 
-            imprimirDatosPersonajes(datosPelis);
+            devolverDatoPersonaje(datosPelis.characters);
+
+            doc.getElementById(`personajes`).addEventListener(`click`, (e) => {
+
+
+
+                if (e.target.className == `personajeNoClicked`) {
+                    e.target.className = `personajeClicked`;
+                }
+                else if (e.target.className == `personajeClicked`) {
+                    e.target.className = `personajeNoClicked`;
+                    e.target.firstElementChild.className = `noDatosPersonaje`;
+                }
+        
+                if (e.target.className == `personajeClicked` && e.target.firstElementChild.className == `noDatosPersonaje`) {
+                    e.target.firstElementChild.className = `datosPersonaje`;
+                }
+        
+        
+        
+            })
+            
+            
 
         }
+        
+    
        
 
     });
@@ -91,69 +115,143 @@ export function imprimirDatosPelis(nombrePeli, lista, idUbi) {
 }
 
 
-function imprimirDatosPersonajes(obj) {
-    
+
+
+export function imprimirInfoPersonaje(datos){
 
     var doc = window.document;
 
-    var contar = 0;
-
-    let array = obj.characters;
+    console.log(datos);
 
     var cuerpo = doc.createElement(`div`);
 
-    cuerpo.setAttribute(`id`, `noMostrarInfoPersonajes`);
+    var nombre = doc.createElement(`p`);
+    nombre.innerHTML = `${datos.name}`;
+
+    nombre.className = `personajeNoClicked`;
+
+    var cuerpoDatos = doc.createElement(`div`);
+
+    cuerpoDatos.setAttribute(`class`, `noDatosPersonaje`);
+
+    var genero = doc.createElement(`p`);
+    genero.innerHTML = `Género: ${datos.gender}`;
+
+    var altura = doc.createElement(`p`);
+    altura.innerHTML = `Altura: ${datos.height}`;
+
+    var peso = doc.createElement(`p`);
+    peso.innerHTML = `Peso: ${datos.mass}`;
+
+    var colorPelo = doc.createElement(`p`);
+    colorPelo.innerHTML = `Color de pelo: ${datos.hair_color}`;
+
+    var colorOjos = doc.createElement(`p`);
+    colorOjos.innerHTML = `Color de ojos: ${datos.eye_color}`;
+
+    var naves = doc.createElement(`p`);
+    naves.innerHTML = `Naves`;
+    var idUbiNaves = generarId(5);
+    naves.setAttribute(`id`, idUbiNaves);
+    naves.setAttribute(`class`, `navesNoClicked`);
+
+    var datosNaves = doc.createElement(`div`);
+    var idNaves = generarId(4);
+    datosNaves.setAttribute(`id`, idNaves);
+    datosNaves.setAttribute(`class`, `noDatosNave`);
+
+    var vehiculos = doc.createElement(`p`);
+    vehiculos.innerHTML = `Vehiculos`;
+    var idUbiVehi = generarId(5);
+    vehiculos.setAttribute(`id`, idUbiVehi);
+    vehiculos.setAttribute(`class`, `vehiculosNoClicked`);
+
+    var datosVehi = doc.createElement(`div`);
+    var idVehi = generarId(4);
+    datosVehi.setAttribute(`id`, idVehi);
+    datosVehi.setAttribute(`class`, `noDatosVehi`);
 
 
-
-    while (contar < 10) {
         
-        var datosPersonaje = devolverDatoPersonaje(array[contar]);
+    cuerpoDatos.appendChild(genero);
+    cuerpoDatos.appendChild(altura);
+    cuerpoDatos.appendChild(peso);
+    cuerpoDatos.appendChild(colorPelo);
+    cuerpoDatos.appendChild(colorOjos);
+    naves.appendChild(datosNaves);
+    vehiculos.appendChild(datosVehi);
+    cuerpoDatos.appendChild(naves);
+    cuerpoDatos.appendChild(vehiculos);
 
-        var nombre = doc.createElement(`p`);
-        nombre.innerHTML = `Nombre: ${datosPersonaje.name}`;
-
-        var cuerpoDatos = doc.createElement(`div`);
-
-        cuerpoDatos.setAttribute(`class`, `noDatosPersonaje`);
-
-
-        var genero = doc.createElement(`p`);
-        genero.innerHTML = `Género: ${datosPersonaje.gender}`;
-
-        var altura = doc.createElement(`p`);
-        altura.innerHTML = `Altura: ${datosPersonaje.height}`;
-
-        var peso = doc.createElement(`p`);
-        peso.innerHTML = `Peso: ${datosPersonaje.mass}`;
-
-        var colorPelo = doc.createElement(`p`);
-        colorPelo.innerHTML = `Color de pelo: ${datosPersonaje.hair_color}`;
-
-        var colorOjos = doc.createElement(`p`);
-        colorOjos.innerHTML = `Color de ojos: ${datosPersonaje.eye_color}`;
+    nombre.appendChild(cuerpoDatos);
+    cuerpo.appendChild(nombre);
 
 
-        
-        cuerpoDatos.appendChild(genero);
-        cuerpoDatos.appendChild(altura);
-        cuerpoDatos.appendChild(peso);
-        cuerpoDatos.appendChild(colorPelo);
-        cuerpoDatos.appendChild(colorOjos);
-
-        nombre.appendChild(cuerpoDatos);
-        cuerpo.appendChild(nombre);
+    doc.getElementById(`personajes`).appendChild(cuerpo);
 
 
-        doc.getElementById(`personajes`).appendChild(cuerpo);
+    devolverDatoNave(datos.starships, idNaves);
 
-        contar++;
+    devolverDatoVehi(datos.vehicles);
+
+    doc.getElementById(idUbiNaves).addEventListener(`click`, (e) => {
+
+        if (e.target.className == `navesNoClicked`) {
+            e.target.className = `navesClicked`;
+        }
+        else if (e.target.className == `navesClicked`) {
+            e.target.className = `navesNoClicked`;
+            e.target.firstElementChild.className = `noDatosNave`;
+        }
+
+        if (e.target.className == `navesClicked` && e.target.firstElementChild.className == `noDatosNave`) {
+            e.target.firstElementChild.className = `datosNave`;
+        }
 
 
 
-    }
+    })
 
 
+
+
+}
+
+
+
+export function imprimirDatosNave(datos, idUbi) {
+    
+    var doc = window.document;
+
+    console.log(datos);
+
+    var cuerpo = doc.createElement(`div`);
+
+    var nombre = doc.createElement(`p`);
+    nombre.innerHTML = `Nombre: ${datos.name}`;
+
+    var modelo = doc.createElement(`p`);
+    modelo.innerHTML = `Modelo: ${datos.model}`;
+
+    var coste = doc.createElement(`p`);
+    coste.innerHTML = `Coste: ${datos.cost_in_credits} creditos`;
+
+    var largo = doc.createElement(`p`);
+    largo.innerHTML = `Largo: ${datos.length}`;
+
+    var capacidad = doc.createElement(`p`);
+    capacidad.innerHTML = `Capacidad de carga: ${datos.cargo_capacity}`;
+
+    cuerpo.appendChild(nombre);
+    cuerpo.appendChild(modelo);
+    cuerpo.appendChild(coste);
+    cuerpo.appendChild(largo);
+    cuerpo.appendChild(capacidad);
+
+
+    doc.getElementById(idUbi).appendChild(cuerpo);
+
+    
 
 
 
